@@ -1,4 +1,5 @@
 <template>
+
   <div class="home text-center">
     <div class="jumbotron">
       <h1 class="display-3">Hello, world!</h1>
