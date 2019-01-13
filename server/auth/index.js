@@ -40,7 +40,7 @@ router.post("/signup", (req, res, next) => {
         // respond with an error!
         if (user) {
           // there is already a user in the db with the username
-          const error = new Error("Username is not OG! username already taken");
+          res.status(409);
           next(error);
         } else {
           // hash the password
@@ -52,7 +52,7 @@ router.post("/signup", (req, res, next) => {
             };
 
             users.insert(newUser).then(insertedUser => {
-              delete insertedUser.password
+              delete insertedUser.password;
               // delete the passowrd from the resposne so when the user gets the post request
               // they cant see the PS but will still be in the db
               // sneding back the hased PS is bad... obviously
@@ -62,6 +62,7 @@ router.post("/signup", (req, res, next) => {
         }
       });
   } else {
+    res.status(422);
     next(result.error);
   }
 });

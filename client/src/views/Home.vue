@@ -15,6 +15,11 @@
         :to="{ name:'signup' }"
         role="button">Sign up</router-link>
       </p>
+      <p class="lead">
+        <router-link class="btn btn-primary btn-lg"
+        :to="{ name:'login' }"
+        role="button">Login</router-link>
+      </p>
     </div>
   </div>
 </template>

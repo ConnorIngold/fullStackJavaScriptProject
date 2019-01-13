@@ -1,10 +1,16 @@
 const express = require("express");
 const volleyball = require("volleyball");
-
+const cors = require("cors");
 
 const app = express();
 
 const auth = require("./auth/index");
+
+app.use(
+  cors({
+    origin: "http://localhost:8080"
+  })
+);
 
 app.use(volleyball);
 app.use(express.json());

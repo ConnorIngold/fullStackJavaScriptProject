@@ -1,8 +1,13 @@
 <template>
   <section>
     <h1>Sign up</h1>
-    <div v-if="errorMessage" class="alert alert-danger" role="alert">{{ errorMessage }}</div>
-    <form @submit.prevent="signup">
+    <div v-if="signingUp">
+      <img src="../assets/loading.svg" alt="">
+    </div>
+    <div v-if="errorMessage" class="alert alert-danger" role="alert">
+      {{ errorMessage }}
+    </div>
+    <form v-if="!signingUp" @submit.prevent="signup">
       <div class="form-group form-row">
         <label for="Username">Username</label>
         <input
@@ -55,8 +60,11 @@
   </section>
 </template>
 
+
 <script>
 import Joi from "joi";
+
+const SIGNUP_URL = "http://localhost:3000/auth/signup";
 
 const schema = Joi.object().keys({
   username: Joi.string()
@@ -76,6 +84,7 @@ const schema = Joi.object().keys({
 
 export default {
   data: () => ({
+    signingUp: false,
     errorMessage: "",
     user: {
       username: "",
@@ -95,8 +104,43 @@ export default {
   methods: {
     signup() {
       if (this.validUser()) {
-        // send data to server
-        console.log("user is valid");
+        const body = {
+          username: this.user.username,
+          password: this.user.password
+        };
+        this.signingUp = true;
+        fetch(SIGNUP_URL, {
+          method: "POST",
+          body: JSON.stringify(body),
+          headers: {
+            "content-type": "application/json"
+          }
+        })
+          .then((response) => {
+            if (response.ok) {
+              return response.json();
+            }
+
+            reponse.json().then(error => {
+              throw new Error(error.message);
+            });
+          })
+          .then(() => {
+            setTimeout(() => {
+              this.signUp = false;
+              this.$router.push('/login');
+            }, 1000);
+            this.signingUp = false;
+            this.$router.push("/login");
+          })
+          .catch(error => {
+            setTimeout(() => {
+              this.signUp = false;
+              this.$router.push('/login');
+            }, 1000);
+            this.signingUp = false;
+            this.errorMessage = error.message;
+          });
       }
     },
     validUser() {

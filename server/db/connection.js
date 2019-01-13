@@ -1,4 +1,3 @@
-const monk = require('monk');
-const db = monk('localhost/auth-for-noobs');
+const db = require ('monk')('localhost/auth-for-noobs');
 
 module.exports = db;
