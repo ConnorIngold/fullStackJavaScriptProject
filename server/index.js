@@ -16,7 +16,7 @@ app.use(volleyball);
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.sendfile(__dirname + "/client/dist/index.html")
+  res.sendFile(__dirname + "/client/dist/index.html");
 });
 
 app.use("/auth", auth);
