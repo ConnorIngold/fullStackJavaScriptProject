@@ -12,10 +12,12 @@ app.use(
   })
 );
 
+app.use(express.static("build"));
+
 app.use(volleyball);
 app.use(express.json());
 
-app.get("/", (req, res) => {
+app.get("*", (req, res) => {
   res.sendFile(__dirname + "../client/dist/index.html");
 });
 
